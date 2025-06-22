@@ -25,11 +25,8 @@ def get_numbers_ticket(min_num, max_num, quantity):
     return sorted(numbers)
 
 def normalize_phone(phone_number):
-    """
-    Нормалізує номер телефону, залишаючи лише цифри та '+' на початку.
-    Якщо відсутній міжнародний код, додає код '+38'.
-    """
-    # Видаляємо все, крім цифр і плюса
+   дсутній міжнародний код, додає код '+38'.
+
     phone_number = re.sub(r"[^\d+]", "", phone_number)
     
     if phone_number.startswith("+"):
