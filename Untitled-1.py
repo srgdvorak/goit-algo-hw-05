@@ -27,7 +27,7 @@ def get_numbers_ticket(min_num, max_num, quantity):
 
 
 def normalize_phone(phone_number):
-    # Якщо відсутній міжнародний код, додає код '+38'
+
     phone_number = re.sub(r"[^\d+]", "", phone_number)
     
     if phone_number.startswith("+"):
