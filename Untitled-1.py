@@ -1,7 +1,8 @@
- from datatime import datetime, date 
+from datetime import datetime, date
+import random, re
 
-def get_days_from_today(date):
-  try:
+def get_days_from_today(date_str):
+    try:
         target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
     except ValueError:
         raise ValueError("Неправильний формат дати. Використовуйте 'РРРР-ММ-ДД'")
@@ -10,9 +11,9 @@ def get_days_from_today(date):
     delta = today - target_date
     return delta.days
 
-def get_numbers_ticket(min_num, max_num, quantity):
 
- if not (1 <= min_num <= max_num <= 1000):
+def get_numbers_ticket(min_num, max_num, quantity):
+    if not (1 <= min_num <= max_num <= 1000):
         return []
     if not (min_num <= quantity <= max_num - min_num + 1):
         return []
@@ -24,33 +25,28 @@ def get_numbers_ticket(min_num, max_num, quantity):
     
     return sorted(numbers)
 
-def normalize_phone(phone_number):
-   дсутній міжнародний код, додає код '+38'.
 
+def normalize_phone(phone_number):
+    # Якщо відсутній міжнародний код, додає код '+38'
     phone_number = re.sub(r"[^\d+]", "", phone_number)
     
     if phone_number.startswith("+"):
-        
         if not phone_number.startswith("+380"):
-           
             pass
         return phone_number
-    
     
     if phone_number.startswith("380"):
         return "+" + phone_number
     
-    
     return "+38" + phone_number
 
 
-if name == "main":
-    
+if __name__ == "__main__":
     print("Кількість днів від 2021-10-09 до сьогодні:", get_days_from_today("2021-10-09"))
     
     lottery_numbers = get_numbers_ticket(1, 49, 6)
     print("Ваші лотерейні числа:", lottery_numbers)
- 
+    
     raw_numbers = [
         "067\t123 4567",
         "(095) 234-5678\n",
