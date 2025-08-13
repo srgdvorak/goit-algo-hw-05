@@ -1,22 +1,17 @@
-def get_cats_info(path):
-    cats = []
+import re
+from typing import Callable
 
-    try:
-        with open(path, 'r', encoding='utf-8') as file:
-            for line in file:
-                line = line.strip()
-                if line:  # перевірка, що рядок не порожній
-                    try:
-                        cat_id, name, age = line.split(',')
-                        cats.append({
-                            "id": cat_id,
-                            "name": name,
-                            "age": age
-                        })
-                    except ValueError:
-                        print(f"Пропущено рядок з помилкою формату: {line}")
-        return cats
+def generator_numbers(text: str):
+    """
+    Генерує всі дійсні числа з тексту (ті, що чітко відокремлені пробілами).
+    """
+    # Регулярний вираз для знаходження дійсних чисел
+    pattern = r"(?<=\s)\d+\.\d+(?=\s)|(?<=\s)\d+(?=\s)"
+    for match in re.finditer(pattern, f" {text} "):  # Додаємо пробіли з обох боків для коректності
+        yield float(match.group())
 
-    except FileNotFoundError:
-        print(f"Файл не знайдено: {path}")
-        return []
+def sum_profit(text: str, func: Callable):
+    """
+    Підсумовує всі числа, знайдені за допомогою переданого генератора func.
+    """
+    return sum(func(text))

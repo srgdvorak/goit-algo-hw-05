@@ -1,25 +1,19 @@
-def total_salary(path):
-    total = 0
-    count = 0
+def caching_fibonacci():
+    """
+    Функція створює кеш та повертає рекурсивну функцію fibonacci(n),
+    яка обчислює числа Фібоначчі з використанням кешування (замикання).
+    """
+    cache = {}  # Словник для зберігання вже обчислених значень
 
-    try:
-        with open(path, 'r', encoding='utf-8') as file:
-            for line in file:
-                line = line.strip()
-                if line:  # перевірка, що рядок не порожній
-                    try:
-                        name, salary_str = line.split(',')
-                        salary = float(salary_str)
-                        total += salary
-                        count += 1
-                    except ValueError:
-                        print(f"Пропущено рядок з помилкою формату: {line}")
-        
-        if count == 0:
-            return (0, 0)
-        average = total / count
-        return (total, average)
-    
-    except FileNotFoundError:
-        print(f"Файл не знайдено: {path}")
-        return (0, 0)
+    def fibonacci(n):
+        if n <= 0:
+            return 0
+        if n == 1:
+            return 1
+        if n in cache:
+            return cache[n]
+        # Рекурсивне обчислення з кешуванням
+        cache[n] = fibonacci(n - 1) + fibonacci(n - 2)
+        return cache[n]
+
+    return fibonacci
