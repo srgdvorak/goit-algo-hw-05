@@ -8,7 +8,21 @@ def input_error(func):
             return "Give me name and phone please."
         except IndexError:
             return "Enter user name."
+        except Exception:
+            return "Invalid input."
     return inner
+
+
+@input_error
+def parse_command(user_input: str):
+    """
+    Парсить введений рядок користувача.
+    Повертає кортеж: (command, data).
+    """
+    parts = user_input.split(maxsplit=1)
+    command = parts[0].lower()
+    data = parts[1] if len(parts) > 1 else ""
+    return command, data
 
 
 @input_error
@@ -48,13 +62,15 @@ def main():
 
     while True:
         user_input = input("Enter a command: ").strip()
+        if not user_input:   # ✅ захист від пустого рядка
+            print("Please enter a command.")
+            continue
+
         if user_input.lower() in ("exit", "close", "good bye"):
             print("Good bye!")
             break
 
-        parts = user_input.split(maxsplit=1)
-        command = parts[0].lower()
-        data = parts[1] if len(parts) > 1 else ""
+        command, data = parse_command(user_input)
 
         if command == "add":
             print(add_contact(data, contacts))
