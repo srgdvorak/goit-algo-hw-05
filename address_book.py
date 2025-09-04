@@ -17,12 +17,12 @@ class Name(Field):
 class Phone(Field):
     def __init__(self, value):
         if not value.isdigit() or len(value) != 10:
-            raise ValueError("Phone must contain exactly 10 digits")
+            raise ValueError("Phone number must contain exactly 10 digits.")
         super().__init__(value)
 
 
 class Birthday(Field):
-    def __init__(self, value: str):
+    def __init__(self, value):
         try:
             self.value = datetime.strptime(value, "%d.%m.%Y").date()
         except ValueError:
@@ -72,11 +72,13 @@ class AddressBook(UserDict):
         for record in self.data.values():
             if record.birthday:
                 bday_this_year = record.birthday.value.replace(year=today.year)
+
                 if today <= bday_this_year <= end_date:
                     greeting_date = bday_this_year
                     if greeting_date.weekday() >= 5:  # Saturday or Sunday
                         days_to_monday = 7 - greeting_date.weekday()
                         greeting_date += timedelta(days=days_to_monday)
+
                     upcoming.append({
                         "name": record.name.value,
                         "birthday": greeting_date.strftime("%d.%m.%Y")
